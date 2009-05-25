@@ -1,0 +1,122 @@
+.header
+  %h1 Show import_file
+
+.body
+  .section
+    %p
+      %strong Data file name:
+      =h parent_object.data_file_name
+    %p
+      %strong Data content type:
+      =h parent_object.data_content_type
+    %p
+      %strong Data file size:
+      =h parent_object.data_file_size
+    %p
+      %strong Data updated at:
+      =h parent_object.data_updated_at
+    %p
+      %strong Name:
+      =h parent_object.name
+    %p
+      %strong Status:
+      =h parent_object.status
+    %p
+      %strong Target model:
+      =h parent_object.target_model
+.header
+  %h1 Listing imported_companies
+  = button_to( "upload", upload_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.pending?
+  = button_to( "import!", push_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.processed?
+  / = button_to "delete invalids", delete_invalid_imported_companies_url
+
+.body
+  .section.w-search
+    .header
+      %h1 Search
+    .body
+      - form_for @search, :url => collection_url do |f|
+        - f.fields_for @search.conditions do |imported_companies|
+          %table
+            %tr 
+              %td
+                %label Satus
+                = imported_companies.select :status_contains, [nil] + ImportedCompany.statuses
+              %td
+                %label Invalid
+                = imported_companies.select :invalid, [nil, true, false]
+              %td
+                %label Duplicate
+                = imported_companies.select :duplicate, [nil, true, false]
+              %td
+                = f.submit "Rechercher"
+  .section
+    .right
+      - pagination
+  .section
+    #container    
+      .result-count== #{pluralize @imported_companies_count, 'imported_company'} found
+      %table.normal
+        %thead
+          %tr
+            %th= "invalid"
+            %th= "duplicate"
+            %th= "possible duplicates"
+            %th= order_by_link :name
+            %th= order_by_link :location
+            %th= order_by_link :address1
+            %th= order_by_link :city
+            %th= order_by_link :state
+            %th= order_by_link :zip
+            %th= order_by_link :email
+            %th= order_by_link :phone
+            %th= order_by_link :website
+            %th= order_by_link :contact1_name
+            %th= order_by_link :contact1_cell
+            %th= order_by_link :contact1_phone
+            %th= order_by_link :contact1_email
+            %th= order_by_link :contact1_title
+            %th= order_by_link :estimated_sales
+            %th= order_by_link :product
+            %th= order_by_link :year_established
+            %th
+            %th
+            %th
+        
+        %tbody{:id => "imported_companies"}
+        - @imported_companies.each do |imported_company|
+          - alt_tr(:id => dom_id(imported_company)) do
+            %td= (imported_company.invalid ? "X" : "")
+            %td=  (imported_company.duplicate ? "X" : "")
+            %td= imported_company.duplicate_links.map{|d| %(#{d.existing_object} #{link_to( "remove",  duplicate_url(:id => d.id), :method => :delete)})}.join("<br/>")
+            %td= h imported_company.name
+            %td= h imported_company.location
+            %td= h imported_company.address1
+            %td= h imported_company.city
+            %td= h imported_company.state
+            %td= h imported_company.zip
+            %td= h imported_company.email
+            %td= h imported_company.phone
+            %td= h imported_company.website
+            %td= h imported_company.contact1_name
+            %td= h imported_company.contact1_cell
+            %td= h imported_company.contact1_phone
+            %td= h imported_company.contact1_email
+            %td= h imported_company.contact1_title
+            %td= h imported_company.estimated_sales
+            %td= h imported_company.product
+            %td= h imported_company.year_established
+      
+            %td= link_to "Visualiser", object_url(imported_company)
+            %td= link_to "Modifier", edit_object_url(imported_company)
+            %td= link_to_remote( "Effacer",:url => object_url(imported_company),  :confirm => "En êtes-vous certain?", :method => :delete  )
+
+  .section
+    .right
+      - pagination
+  .section
+    .result-count== #{pluralize @imported_companies_count, 'imported_company'} found
+ 
+ 
+
+

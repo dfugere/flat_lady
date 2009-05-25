@@ -1,0 +1,68 @@
+/* Form */
+form p {
+  margin-bottom: 10px; }
+  form p label {
+    font-weight: bold;
+    display: block;
+    color: #333; }
+
+/* Styled  :tables */
+table.normal {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+/*  line-height: 10px;*/
+  font-size: 10px;
+ }
+  table.normal th {
+    background: #EEEEEE none repeat scroll 0%;
+    border-bottom: 1px solid #CCCCCC;
+    text-align: left;
+    font-weight: bold;
+    padding: 2px; }
+  table.normal td {
+    vertical-align: top;
+    padding: 2px; }
+  table.normal tr.odd {
+    background-color: #f9f9f9; }
+  table.normal tr.even {
+    background-color: white; }
+  table.normal tr.odd td,
+  table.normal tr.even td {
+    border: 1px solid #DEDEDE;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    vertical-align: top; }
+
+#Content {
+  float: left;
+  width: 100%;
+  background-color: white;
+  margin-bottom: 10px;
+  font-size: 12px;
+
+}
+#Content.full {
+  float: none;
+  width: 100%;
+}
+#Content > .header {
+  margin: 0px;
+  padding: 5px 0px 0px;
+  overflow: hidden;
+}
+#Content > .header h1 {
+  padding: 0px;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+#Content > .body {
+  padding: 10px 10px 10px 0px;
+}
+#Content .body > .section {
+  margin-bottom: 10px;
+}
+
+
+

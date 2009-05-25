@@ -1,0 +1,88 @@
+.header
+  %h1 Listing import_files
+
+.body
+  .section
+    .right
+      - pagination
+  .section
+    .result-count== #{pluralize @import_files_count, 'import_file'} found
+    %table.normal
+      %thead
+        %tr
+          %th
+          %th
+          %th= order_by_link :name
+          %th= order_by_link :status
+          %th= order_by_link :target_model
+          %th= order_by_link :data_file_name
+          %th= order_by_link :data_content_type
+          %th= order_by_link :data_file_size
+          %th= order_by_link :data_updated_at
+    
+          %th
+      
+      %tbody
+      - @import_files.each do |import_file|
+        - alt_tr do
+          %td= link_to "Effacer", object_url(import_file), :confirm => "En êtes-vous certain?", :method => :delete
+          %td= link_to "Visualiser", eval("import_file_#{import_file.imports_name}_url(import_file)")
+          %td= h import_file.name
+          %td= h import_file.status
+          %td= h import_file.target_model
+          %td= h import_file.data_file_name
+          %td= h import_file.data_content_type
+          %td= h import_file.data_file_size
+          %td= h import_file.data_updated_at
+    
+    
+
+  .section
+    .right
+      - pagination
+  .section
+    .result-count== #{pluralize @import_files_count, 'import_file'} found
+- content_for :sidebar do
+  .section.w-actions
+    .header
+      %h1 Actions
+    .body
+      %ul
+        %li.last
+          =link_to 'New import_file', new_object_url
+
+  .section.w-search
+    .header
+      %h1 Search
+    .body
+      - form_for @search, :url => collection_url do |f|
+        - f.fields_for @search.conditions do |import_files|
+          %p
+            %label Data file name
+            = import_files.text_field :data_file_name_contains
+          %p
+            %label Data content type
+            = import_files.text_field :data_content_type_contains
+          %p
+            %label Data file size
+            = import_files.text_field :data_file_size_contains
+          %p
+            %label Data updated at
+            = import_files.text_field :data_updated_at_contains
+          %p
+            %label Mapping
+            = import_files.text_field :mapping_contains
+          %p
+            %label Name
+            = import_files.text_field :name_contains
+          %p
+            %label Status
+            = import_files.text_field :status_contains
+          %p
+            %label User
+            = import_files.select( :user_id , User.all.map{|model| [ model.to_s, model.id] })
+          %p
+            %label Target model
+            = import_files.text_field :target_model_contains
+        = f.submit "Rechercher"
+

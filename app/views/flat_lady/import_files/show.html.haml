@@ -1,0 +1,32 @@
+.header
+  %h1 Show import_file
+ 
+.body
+  .section
+    %p
+      %strong Data file name:
+      =h @import_file.data_file_name
+    %p
+      %strong Data content type:
+      =h @import_file.data_content_type
+    %p
+      %strong Data file size:
+      =h @import_file.data_file_size
+    %p
+      %strong Data updated at:
+      =h @import_file.data_updated_at
+    %p
+      %strong Name:
+      =h @import_file.name
+    %p
+      %strong Status:
+      =h @import_file.status
+    %p
+      %strong Target model:
+      =h @import_file.target_model
+   
+
+ 
+    = link_to 'Define mapping', edit_object_url
+    
+ 

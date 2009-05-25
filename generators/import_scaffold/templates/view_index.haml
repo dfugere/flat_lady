@@ -1,0 +1,95 @@
+.header
+  %h1 Show import_file
+
+- if parent_object
+  .body
+    .section
+      %p
+        %strong Data file name:
+        =h parent_object.data_file_name
+      %p
+        %strong Data content type:
+        =h parent_object.data_content_type
+      %p
+        %strong Data file size:
+        =h parent_object.data_file_size
+      %p
+        %strong Data updated at:
+        =h parent_object.data_updated_at
+      %p
+        %strong Name:
+        =h parent_object.name
+      %p
+        %strong Status:
+        =h parent_object.status
+      %p
+        %strong Target model:
+        =h parent_object.target_model
+  
+
+.header
+  %h1 Listing imported_companies
+  - if parent_object
+    = button_to( "upload", upload_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.pending?
+    = button_to( "import!", push_flat_lady_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.processed?
+  / = button_to "delete invalids", delete_invalid_imported_companies_url
+
+.body
+  .section.w-search
+    .header
+      %h1 Search
+    .body
+      - form_for @search, :url => collection_url do |f|
+        - f.fields_for @search.conditions do |<%= plural_name %>|
+          %table
+            %tr 
+              %td
+                %label Satus
+                = <%= plural_name %>.select :import_status_contains, [nil] + <%= class_name  %>.import_statuses
+              %td
+                %label Invalid
+                = <%= plural_name %>.select :invalid_import, [nil, true, false]
+              %td
+                %label Duplicate
+                = <%= plural_name %>.select :duplicated_import, [nil, true, false]
+              %td
+                = f.submit "Rechercher"
+
+.body
+  .section
+    .right
+      - pagination
+  .section
+    .result-count== #{pluralize @<%= plural_name %>_count, '<%= singular_name %>'} found
+    %table
+      %thead
+        %tr
+          %th= "duplicate"
+          %th= "invalid"
+          %th= "possible duplicates"
+<% for attribute in (attributes - %W(duplicated_import invalid_import)) -%>
+          %th= order_by_link :<%= attribute.name %>
+<% end -%>
+          %th
+          %th
+          %th
+      
+      %tbody
+      - @<%= plural_name %>.each do |<%= singular_name %>|
+        - alt_tr({:id => "<%= plural_name %>"}) do
+          %td= h (<%= singular_name %>.invalid_import ? "X" : "")
+          %td= h (<%= singular_name %>.duplicated_import ? "X" : "")
+          %td= <%= singular_name %>.duplicate_links.map{|d| %(#{d.existing_object} #{link_to( "remove",  duplicate_url(:id => d.id), :method => :delete) rescue ""})}.join("<br/>")
+<% for attribute in (attributes.reject{|a| DEFAULT_ATTRIBUTES.include?(a.name.to_s)} ) -%>
+          %td= h <%= singular_name %>.<%= attribute.name %>
+<% end -%>    
+          %td= link_to 'Show', object_url(<%= singular_name %>)
+          %td= link_to 'Edit', edit_object_url(<%= singular_name %>)
+          %td= link_to_remote( "Effacer",:url => object_url(<%= singular_name %>),  :confirm => "En êtes-vous certain?", :method => :delete )
+
+
+
+
+
+
+  

@@ -1,0 +1,32 @@
+.header
+  %h1 Show <%= singular_name %>
+
+.body
+  .section
+<% for attribute in attributes -%>
+    %p
+      %strong <%= attribute.column.human_name %>:
+      =h @<%= singular_name %>.<%= attribute.name %>
+<% end -%>
+
+    = link_to 'Edit', edit_object_url
+    |
+    = link_to 'Back', collection_url
+
+- content_for :sidebar do
+  .section.w-actions
+    .header
+      %h1 Actions
+    .body
+      %ul
+        %li.last
+          =link_to 'New <%= singular_name %>', new_object_url
+
+  .section.w-actions
+    .body
+      - if @previous
+        .previous= link_to( "&laquo; #{_('<%= singular_name %> précédente')}",   <%= singular_name %>_path( @previous ))
+      - if @previous and @next
+        %span &nbsp;...&nbsp; 
+      - if @next
+        .next= link_to( "#{'<%= singular_name %> suivante'} &raquo;",  <%= singular_name %>_path( @next))

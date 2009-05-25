@@ -1,6 +1,5 @@
 class <%= controller_class_name %>Controller < ResourceController::Base
   layout "import"
-  before_filter :reset_collection_index, :only => [:show, :edit]
   belongs_to :import_file
   # before_filter :require_user
   # access_control :DEFAULT => 'admin'

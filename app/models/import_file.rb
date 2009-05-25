@@ -161,7 +161,6 @@ class ImportFile < ActiveRecord::Base
     end
     
     def import!
-        start_import!
         push!
         end_import!
     end

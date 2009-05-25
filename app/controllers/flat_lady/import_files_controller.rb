@@ -45,10 +45,8 @@ class FlatLady::ImportFilesController < ResourceController::Base
   end
   def push
     load_object
-    if @import_file
-      @import_file.start_import!
-      Delayed::Job.enqueue( ImportJob.new(@import_file))
-    end
+    @import_file.start_import!
+    Delayed::Job.enqueue( ImportJob.new(@import_file))
     flash[:notice] = "Import has started, you will received a notification when the process will be done"
     redirect_to :back
   end

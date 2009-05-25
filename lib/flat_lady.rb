@@ -16,3 +16,14 @@ class ActionController::Routing::RouteSet
   alias_method_chain :load_routes!, :flat_lady
 end
 
+class ActiveRecord::Base 
+  protected
+  def scoped_methods
+    Thread.current[:"#{self}_scoped_methods"] ||= (self.default_scoping || []).dup
+  end
+end
+class NilClass
+  def dup
+    []
+  end
+end

@@ -8,9 +8,7 @@ module FlatLady
       model.class_eval do
         cattr_accessor :mapping_validations
         mapping_validations = {}
-        has_many :duplicate_links, :foreign_key => :import_id, :conditions => "duplicate_links.import_type = 'ImportedCompany' AND (wrong is null or wrong = false)"
-        has_many :duplicates, :class_name => "Company", :through => :duplicate_links, :source => :company 
-        
+             
         ### State machine
         state_machine :import_status, :initial => :pending do
           before_transition all => :processed, :do => :check_integrity
@@ -25,10 +23,10 @@ module FlatLady
           end
         end
 
-        def self.statuses
+        def self.import_statuses
           state_machines[:import_status].states.map( &:name ).map(&:to_s)   
         end
-        statuses.each do |status|
+        import_statuses.each do |status|
           named_scope status, :conditions => {:import_status => status}
         end
         
@@ -37,23 +35,13 @@ module FlatLady
     end
 
     module InstanceMethods
-      def find_duplicates
-        # for duplicate in possible_duplicates
-        #           # if dup_company.shipments.size > 0
-        #           DuplicateLink.create(:import => self, :existing_object => duplicate)
-        #           # end
-        #         end
-        #         self.update_attribute(:duplicated_import, true) unless duplicate_links.empty?
-        raise "must implement find_duplicates"
-      end
+ 
 
       def remove_from_duplicates
         self.update_attribute(:duplicated_import, !duplicate_links.empty?) 
       end
 
       def check_integrity
-        # update_attribute(:invalid_import, !valid?)
-        #         find_duplicates
         raise "must implement check_integrity"
       end
       
@@ -73,11 +61,11 @@ module FlatLady
        end
 
        def process!
-         pending.each( &:process!)
+         all.each( &:process!)
        end
 
        def import!
-         find(:all).each( &:import!)
+         all.each( &:import!)
        end
 
        def find_duplicates

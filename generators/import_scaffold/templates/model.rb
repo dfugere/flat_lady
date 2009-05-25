@@ -1,7 +1,7 @@
 class <%= class_name %> < ActiveRecord::Base
   ### Plugin Magic
   include FlatLady::ImportedRessource
-  
+  unloadable
   ### Associations
 <% for attribute in (attributes.select {|att| att.name.ends_with?("_id")}) -%>
   <%= "# belongs_to :#{attribute.name[0..-4]}" %>

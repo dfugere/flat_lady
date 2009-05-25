@@ -52,7 +52,7 @@
           %th= "duplicate"
           %th= "possible duplicates"
 <% for attribute in (attributes - %W(duplicated_import invalid_import)) -%>
-          %th=  <%= attribute.name %>
+          %th=  "<%= attribute.name %>"
 <% end -%>
           %th
           %th

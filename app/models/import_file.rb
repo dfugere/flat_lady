@@ -1,5 +1,3 @@
-require 'faster_csv'
-require 'state_machine'
 class ImportFile < ActiveRecord::Base
 
   ### Plugin Magic

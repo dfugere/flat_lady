@@ -1,11 +1,5 @@
-require 'resource_controller'
-require 'haml'
 class FlatLady::ImportFilesController < ResourceController::Base
-  searchable_resource
-  before_filter :reset_collection_index, :only => [:show, :edit]
  
-  unloadable
-   
   # before_filter :require_user
   # access_control :DEFAULT => 'admin'
   # layout  "import"  

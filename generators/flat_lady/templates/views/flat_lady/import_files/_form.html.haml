@@ -1,0 +1,9 @@
+%p
+  %label{:for => "import_file_name"} Name:
+  = f.text_field :name
+%p
+  %label{:for => "import_file_mapping"} Fichier:
+  = f.file_field :data
+%p
+  %label{:for => "import_file_target_model"} Target model:
+  = f.select :target_model,  ImportFile.target_models

@@ -32,14 +32,6 @@
   - if parent_object
     = button_to( "upload", upload_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.pending?
     = button_to( "import!", push_flat_lady_import_file_url(parent_object), :confirm => "are you certain?") if parent_object.processed?
-  / = button_to "delete invalids", delete_invalid_imported_companies_url
-
-.body
-  .section.w-search
-    .header
-      %h1 Search
-    .body
-
 
 .body
   .section
@@ -50,7 +42,6 @@
         %tr
           %th= "invalid"
           %th= "duplicate"
-          %th= "possible duplicates"
 <% for attribute in (attributes - %W(duplicated_import invalid_import)) -%>
           %th=  "<%= attribute.name %>"
 <% end -%>

@@ -1,0 +1,34 @@
+.header
+  %h1 Editing import_file
+
+.body
+  .section
+    = error_messages_for :import_file
+
+    - form_for(:import_file, :url => object_url, :html => {:method => :put }) do |f|
+      %table
+        %tr
+          %th Nom du champ en interne
+          %th Nom du champ importé
+          %th Ligne 1
+          %th Ligne 2
+        - for header in @import_file.table.headers.reject(&:blank?) 
+          - alt_tr do	
+            %td= select_tag "import_file[mapping][#{header}]" , options_for_select( [[nil]] + @import_file.humanized_mapping.to_a ,  (@import_file.mapping[header] if @import_file.mapping)) 
+            %td=  header
+            %td=  @import_file.table[0].field(header)
+            %td=  @import_file.table[1].field(header)
+      %p= submit_tag "Importer" , :disable_with => 'en cours...'
+ 
+    = link_to 'Back', collection_url
+
+- content_for :sidebar do
+  .section.w-actions
+    .header
+      %h1 Actions
+    .body
+      %ul
+        %li.last
+          =link_to 'New import_file', new_object_url
+
+ 

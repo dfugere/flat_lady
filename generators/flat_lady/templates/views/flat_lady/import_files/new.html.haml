@@ -1,0 +1,12 @@
+.header
+  %h1 New import_file
+
+.body
+  .section
+    = error_messages_for :import_file
+
+    - form_for(:import_file, :html => { :multipart => true }, :url => collection_url) do |f|
+      = render :partial => "form", :locals => { :f => f }
+      %p= submit_tag "Create"
+
+    = link_to 'Back', collection_url

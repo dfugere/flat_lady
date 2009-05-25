@@ -10,7 +10,7 @@ class FlatLady::ImportFilesController < ResourceController::Base
   # access_control :DEFAULT => 'admin'
   # layout  "import"  
   def index
-    @import_files, @import_files_count = search.all, search.count
+    @import_files = ImportFile.all
   end
     
   create.wants.html do

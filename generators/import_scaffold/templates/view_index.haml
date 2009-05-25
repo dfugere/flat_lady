@@ -39,36 +39,20 @@
     .header
       %h1 Search
     .body
-      - form_for @search, :url => collection_url do |f|
-        - f.fields_for @search.conditions do |<%= plural_name %>|
-          %table
-            %tr 
-              %td
-                %label Satus
-                = <%= plural_name %>.select :import_status_contains, [nil] + <%= class_name  %>.import_statuses
-              %td
-                %label Invalid
-                = <%= plural_name %>.select :invalid_import, [nil, true, false]
-              %td
-                %label Duplicate
-                = <%= plural_name %>.select :duplicated_import, [nil, true, false]
-              %td
-                = f.submit "Rechercher"
+
 
 .body
   .section
     .right
-      - pagination
   .section
-    .result-count== #{pluralize @<%= plural_name %>_count, '<%= singular_name %>'} found
     %table
       %thead
         %tr
-          %th= "duplicate"
           %th= "invalid"
+          %th= "duplicate"
           %th= "possible duplicates"
 <% for attribute in (attributes - %W(duplicated_import invalid_import)) -%>
-          %th= order_by_link :<%= attribute.name %>
+          %th=  <%= attribute.name %>
 <% end -%>
           %th
           %th
@@ -79,7 +63,6 @@
         - alt_tr({:id => "<%= plural_name %>"}) do
           %td= h (<%= singular_name %>.invalid_import ? "X" : "")
           %td= h (<%= singular_name %>.duplicated_import ? "X" : "")
-          %td= <%= singular_name %>.duplicate_links.map{|d| %(#{d.existing_object} #{link_to( "remove",  duplicate_url(:id => d.id), :method => :delete) rescue ""})}.join("<br/>")
 <% for attribute in (attributes.reject{|a| DEFAULT_ATTRIBUTES.include?(a.name.to_s)} ) -%>
           %td= h <%= singular_name %>.<%= attribute.name %>
 <% end -%>    

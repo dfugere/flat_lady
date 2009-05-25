@@ -70,6 +70,13 @@ class ImportScaffoldGenerator < Rails::Generator::NamedBase
       m.gsub_file('config/import_mapping.yml', /(#{Regexp.escape(sentinel)})/mi) do |match|
         "\n\n#{generate_mapping}\n\n#{match}"
       end
+      if  File.exists?('app/models/duplicate_link.rb')
+        sentinel = "#JOIN SPECIFICATIONS MARKER"
+        m.gsub_file('app/models/duplicate_link.rb', /(#{Regexp.escape(sentinel)})/mi) do |match|
+          "\n\n#{generate_mapping}\n\n#{match}"
+        end
+      end
+      
 
       unless options[:skip_migration]
         
@@ -102,6 +109,12 @@ end"
 #{attrs}
 "
     end
+  def generate_duplicate_link
+  %{ 
+  belongs_to :#{initial_name.singularize},  :class_name => "#{initial_name.singularize.camelize}", :foreign_key => "existing_object_id"\n
+  belongs_to :#{file_name}, :class_name => "#{class_name}", :foreign_key => "import_id"
+}
+  end
     
     # Override with your own usage banner.
     def banner

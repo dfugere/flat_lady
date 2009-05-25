@@ -22,11 +22,3 @@
         %li.last
           =link_to 'New <%= singular_name %>', new_object_url
 
-  .section.w-actions
-    .body
-      - if @previous
-        .previous= link_to( "&laquo; #{_('<%= singular_name %> précédente')}",   <%= singular_name %>_path( @previous ))
-      - if @previous and @next
-        %span &nbsp;...&nbsp; 
-      - if @next
-        .next= link_to( "#{'<%= singular_name %> suivante'} &raquo;",  <%= singular_name %>_path( @next))

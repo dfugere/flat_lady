@@ -20,6 +20,7 @@ In config/environment.rb:
 	config.gem 'fastercsv'
 	config.gem 'haml',
              :version => '~> 2.0.4'
+
 plugins :
 
 	./script/plugin install git://github.com/giraffesoft/resource_controller.git
@@ -79,10 +80,17 @@ this will create the scaffold with the required migrations and routes for the Im
 
 Make sure you define the 2 following methods on the ImportedContact class
 
-  check_integrity : this method will be called on each imported_contact directly after translating the csv file. flat_lady adds 2 integrity flags by default to the ImportedContact model. Those flags are : invalid_import and duplicated_import. Those flag should be set in the check_integrity method.
+  def check_integrity 
+	  #	this method will be called on each imported_contact directly after translating the csv file. flat_lady adds 2 integrity flags by
+	  #default to the ImportedContact model. Those flags are : invalid_import and duplicated_import. Those flag should be set in the
+	  # check_integrity method.
 
-  push! : this method will be called to import the data. This is were you specify how to denormalize and import your imported_contacts
+  def push! 
+     #this method will be called to import the data. This is were you specify how to denormalize and import your imported_contacts
   
+start the background worker
+
+  rake jobs:work
 
 The users of your application should now be able to import contacts via /flat_lady/import_files/new
  

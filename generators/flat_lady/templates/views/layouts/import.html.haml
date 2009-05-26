@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= PROJECT_NAME
+    %title= "Import"
     %meta{ 'http-equiv' => "content-type", :content => "text/html; charset=utf-8" }
     = javascript_include_tag :defaults
     = stylesheet_link_tag "reset", "cg-base", "feedback", "application", :media => 'all', :cache => true
@@ -15,21 +15,11 @@
         %h1= PROJECT_NAME
         .group.w-links
           .body
-            = link_to "logout", logout_url
-            |
-            - if admin?
-              = link_to "administration", admin_users_url
-              |
-            - else
-              = link_to "profile", profile_url
-              |
-            = link_to_cg_feedback
+ 
       .body
-        - main_navigation
-          
+           
     #Main
-      - display_flash
-      #Content.area
+       #Content.area
         = yield
     #Footer.area
       / %p © Code Genome 2008

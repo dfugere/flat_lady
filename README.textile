@@ -43,6 +43,10 @@ Flat Lady uses the delayed_jobs plugin to run the importation related jobs in th
   
     ./script/plugin install git://github.com/tobi/delayed_job.git
 
+Make sure the development database exists and run the generator:
+
+	./script/generate flat_lady_background
+	
 for more information on the delayed_job usage, please refer to : http://github.com/tobi/delayed_job/tree/master.
 
 h2. Usage

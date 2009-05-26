@@ -1,2 +1,1 @@
-require 'state_machine'
-require 'flat_lady'
+require 'flat_lady' rescue ""

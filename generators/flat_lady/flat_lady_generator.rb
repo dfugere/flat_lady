@@ -25,6 +25,7 @@ class FlatLadyGenerator < Rails::Generator::Base
           File.join('app/views', "flat_lady", "import_files" , "#{action}.html.haml")
         )
       end
+      
       m.file "views/layouts/import.html.haml", "app/views/layouts/import.html.haml"
       m.template('model.rb', File.join('app/models', "import_file.rb"))
       m.template('controller.rb', File.join('app/controllers', "flat_lady", "import_files_controller.rb"))
@@ -60,6 +61,21 @@ Rails::Generator::Commands::Create.class_eval do
       end
     end
   end
+  
+  def require_gems
+    sentinel = 'Rails::Initializer.run do |config|'
+    unless options[:pretend]
+      gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+        route = %(config.gem 'paperclip' 
+        config.gem 'state_machine'
+        config.gem 'ar-extensions'
+        config.gem 'fastercsv'
+        )
+        "#{match}\n  #{route}\n"
+      end
+    end
+     
+  end
 end
 
 Rails::Generator::Commands::Destroy.class_eval do
@@ -77,5 +93,19 @@ Rails::Generator::Commands::Destroy.class_eval do
         ""
       end
     end
+  end
+  
+  def require_gems
+    sentinel = %(config.gem 'paperclip' 
+    config.gem 'state_machine'
+    config.gem 'ar-extensions'
+    config.gem 'fastercsv'
+    )
+    unless options[:pretend]
+      gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+        ""
+      end
+    end
+     
   end
 end

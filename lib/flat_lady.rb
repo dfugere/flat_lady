@@ -1,5 +1,6 @@
-require 'state_machine'
+# require 'state_machine'
 # require 'evil_twin'
+begin
 require 'flat_lady/imported_ressource'
 require 'flat_lady/jobs'
 require 'import_file.rb'
@@ -16,5 +17,8 @@ class ActionController::Routing::RouteSet
 
   alias_method_chain :load_routes!, :flat_lady
 end
+rescue
+end
 
+ 
  

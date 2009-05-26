@@ -61,11 +61,12 @@ class ImportScaffoldGenerator < Rails::Generator::NamedBase
       # m.template("functional_test.rb", File.join('test/functional', controller_class_path, "#{controller_file_name}_controller_test.rb"))
       m.template('unit_test.rb',       File.join('test/unit',       class_path, "#{file_name}_test.rb"))
       # m.template('fixtures.yml',       File.join('test/fixtures',   "#{table_name}.yml"))
-      
-      # sentinel = "# --NEW FACTORY MARKER--"
-      # m.gsub_file('test/factories.rb', /(#{Regexp.escape(sentinel)})/mi) do |match|
-      #   "\n\n#{generate_factory}\n\n#{match}"
-      # end
+      if  File.exists?('test/factories.rb')
+        sentinel = "# --NEW FACTORY MARKER--"
+        m.gsub_file('test/factories.rb', /(#{Regexp.escape(sentinel)})/mi) do |match|
+          "\n\n#{generate_factory}\n\n#{match}"
+        end
+      end
       sentinel = "# --NEW MAPPING MARKER--"
       m.gsub_file('config/import_mapping.yml', /(#{Regexp.escape(sentinel)})/mi) do |match|
         "\n\n#{generate_mapping}\n\n#{match}"

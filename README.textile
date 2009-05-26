@@ -50,8 +50,12 @@ h2. Usage
 Flat lady enables you to provide an importation interface for any model of your system.
 
 The first step is to define a denormalized schema which will be used as a buffer to validate the data before the importation. 
+  
+   script/generate import_scaffold model_name field1:string field2:string ....
 
-Exemple :
+the second step is to define the "check_integrity" and "push!" methods of the generated model
+
+Example :
 
 let's say you want to import contacts from many different csv files, but, in your app, contacts are define as follow :
   
@@ -64,18 +68,14 @@ you would start by defining a denormalized (flat) schema for contacts with many 
 
 this will create the scaffold with the required migrations and routes for the ImportedContact model.
 
+Make sure you define the 2 following methods on the ImportedContact class
 
-  
-h2. Fields mapping
-  
-h2. Dependencies
-  
-  state_machine
-  paperclip
-  cucumber
-  evil_twin
-  ar-extensions
+  check_integrity : this method will be called on each imported_contact directly after translating the csv file. flat_lady adds 2 integrity flags by default to the ImportedContact model. Those flags are : invalid_import and duplicated_import. Those flag should be set in the check_integrity method.
 
+  push! : this method will be called to import the data. This is were you specify how to denormalize and import your imported_contacts
+  
+
+The users of your application should now be able to import contacts via /flat_lady/import_files/new
  
 
 h2. Cucumber Features
@@ -107,19 +107,6 @@ Run the Cucumber generator (if you haven't already) and FlatLady's feature gener
     script/generate cucumber
     script/generate flat_lady_features
 
-All of the files generated should be new with the exception of the features/support/paths.rb file. If you have not modified your paths.rb then you will be okay to replace it with this one. If you need to keep your paths.rb file then add these locations in your paths.rb manually:
-
-    def path_to(page_name)
-      case page_name
-       ...
-      when /the sign up page/i
-       new_user_path
-      when /the sign in page/i
-       new_session_path	
-      when /the password reset request page/i
-       new_password_path
-      ...
-    end
 
 h2. Authors
 
@@ -131,5 +118,4 @@ Ask the "mailing list":http://groups.google.com/group/codegenome-flat_lady_
 
 h2. Suggestions, Bugs, Refactoring?
 
-Fork away and create a "Github Issue":http://github.com/thoughtbot/clearance/issues. Please don't send pull requests.
-
+ 

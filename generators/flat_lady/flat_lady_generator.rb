@@ -10,6 +10,8 @@ class FlatLadyGenerator < Rails::Generator::Base
       m.file "factories.rb", "test/factories/flat_lady.rb"
       m.directory File.join("config")
       m.file "import.css", "public/stylesheets/import.css"
+      m.file "import.css", "public/stylesheets/import.css"
+      m.file "import_mapping.yml", "config/import_mapping.yml"
       unless  File.exists?('db/migrate/create_import_files.rb')
         m.migration_template( "migrations/create_import_files.rb",
                              'db/migrate',

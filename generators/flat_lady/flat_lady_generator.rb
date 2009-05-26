@@ -6,6 +6,8 @@ class FlatLadyGenerator < Rails::Generator::Base
 
   def manifest
     record do |m|
+      m.template('helper.rb', File.join('app/helpers', "flat_lady", "import_files_helper.rb"))
+      
       m.directory File.join("test", "factories")
       m.file "factories.rb", "test/factories/flat_lady.rb"
       m.directory File.join("config")
@@ -18,6 +20,7 @@ class FlatLadyGenerator < Rails::Generator::Base
                              :migration_file_name => "flat_lady_create_import_files")
       end
       m.directory File.join("app", "controllers", "flat_lady")
+      m.directory File.join("app", "helpers", "flat_lady")
       m.directory File.join("app", "models" )
       
       m.directory File.join("app", "views", "flat_lady","import_files")

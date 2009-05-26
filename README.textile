@@ -18,6 +18,11 @@ In config/environment.rb:
 	config.gem 'state_machine'
 	config.gem 'ar-extensions'
 	config.gem 'fastercsv'
+	config.gem 'haml',
+             :version => '~> 2.0.4'
+plugins :
+
+	./script/plugin install git://github.com/giraffesoft/resource_controller.git
  
 h2. Installation
 

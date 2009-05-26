@@ -2,6 +2,7 @@ require 'state_machine'
 # require 'evil_twin'
 require 'flat_lady/imported_ressource'
 require 'flat_lady/jobs'
+require 'import_file.rb'
 
 class ActionController::Routing::RouteSet
   def load_routes_with_flat_lady!
@@ -16,14 +17,4 @@ class ActionController::Routing::RouteSet
   alias_method_chain :load_routes!, :flat_lady
 end
 
-class ActiveRecord::Base 
-  protected
-  def scoped_methods
-    Thread.current[:"#{self}_scoped_methods"] ||= (self.default_scoping || []).dup
-  end
-end
-class NilClass
-  def dup
-    []
-  end
-end
+ 

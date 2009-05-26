@@ -1,5 +1,7 @@
+require 'resource_controller'
+require 'haml'
 class FlatLady::ImportFilesController < ResourceController::Base
- 
+
   # before_filter :require_user
   # access_control :DEFAULT => 'admin'
   # layout  "import"  

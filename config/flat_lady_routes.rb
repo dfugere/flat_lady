@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
      
   map.namespace :flat_lady do |flat_lady|
     flat_lady.resources :import_files, 
-      :has_many => FlatLady::ImportFile.pluralized_buffer_models, 
+      :has_many => ImportFile.pluralized_buffer_models, 
       :member => {:upload => :any,:clean => :any, :process => :any, :push => :any}
     
   end

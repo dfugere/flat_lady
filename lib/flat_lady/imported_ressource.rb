@@ -15,11 +15,11 @@ module FlatLady
           before_transition all => :imported, :do => :push!
 
           event :process do
-            transition [:pending] => :processed
+            transition all => :processed
           end
 
           event :import do
-            transition [:processed] => :imported
+            transition all => :imported
           end
         end
 
